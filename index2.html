@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MVVM</title>
+</head>
+<body>
+
+<div id="mvvm-app">
+
+</div>
+<script src="./src/newJS/observer.js"></script>
+<script src="./src/newJS/mvvm.js"></script>
+<script>
+    var vm = new MVVM({
+        el: '#mvvm-app',
+        data: {
+            name: 123,
+            friends: [
+                {
+                    name: 'bob',
+                    age: 19
+                }
+            ]
+        }
+    })
+    console.log(uid)
+</script>
+</body>
+</html>

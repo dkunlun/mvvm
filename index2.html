@@ -7,24 +7,34 @@
 <body>
 
 <div id="mvvm-app">
-
+    <h1>{{name}}</h1>
+    <h1>{{age}}</h1>
+    <input v-model="name"/>
+    <button type="button" v-on:click="add">add</button>
 </div>
 <script src="./src/newJS/observer.js"></script>
+<script src="./src/newJS/watcher.js"></script>
+<script src="./src/newJS/compile.js"></script>
 <script src="./src/newJS/mvvm.js"></script>
 <script>
     var vm = new MVVM({
         el: '#mvvm-app',
         data: {
             name: 123,
+            age: 19,
             friends: [
                 {
                     name: 'bob',
                     age: 19
                 }
             ]
+        },
+        methods: {
+            add () {
+                this.age++
+            }
         }
     })
-    console.log(uid)
 </script>
 </body>
 </html>

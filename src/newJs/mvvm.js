@@ -1,25 +1,28 @@
-function MVVM (options) {
+function MVVM(options) {
     this.$options = options || {}
-    let data = this._data = this.$options.data
+    let data = this.data = this.$options.data
 
     Object.keys(data).forEach(key => {
         this._proxyData(key)
     })
-    new Observer(data)
+
+    observe(data)
+
+    new Compile(options.el, this)
+
+    return this
 }
 
 MVVM.prototype = {
     _proxyData (key) {
-        let me = this
-
         Object.defineProperty(this, key, {
-            configurable: false,
-            enumerable: true,
-            get: function () {
-                return me._data[key]
+            enumerable: false,
+            configurable: true,
+            get () {
+                return this.data[key]
             },
-            set: function (newVal) {
-                me._data[key] = newVal
+            set (newVal) {
+                this.data[key] = newVal
             }
         })
     }

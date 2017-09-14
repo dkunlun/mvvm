@@ -6,7 +6,7 @@ function defineReactive(data, key, value) {
         configurable: true,
         get () {
             if(Dep.target) {
-                dep.addSub(Dep.target)
+                dep.depend()
             }
             return value
         },
@@ -29,13 +29,25 @@ function observe(data) {
     });
 };
 
+let uid = 0
+
 function Dep() {
+    this.id = uid++
     this.subs = []
 }
 
 Dep.prototype = {
     addSub (sub) {
         this.subs.push(sub)
+    },
+    depend () {
+        Dep.target.addDep(this)
+    },
+    removeSub (sub) {
+        let index = this.subs.indexOf(sub)
+        if(index !== -1) {
+            this.subs.splice(index, 1)
+        }
     },
     notify () {
         this.subs.forEach((sub) => {

@@ -1,4 +1,6 @@
+//劫持数据
 function defineReactive(data, key, value) {
+    //递归调用劫持所有属性
     observe(value)
     let dep = new Dep()
     Object.defineProperty(data, key, {
@@ -30,7 +32,7 @@ function observe(data) {
 };
 
 let uid = 0
-
+//订阅者数组
 function Dep() {
     this.id = uid++
     this.subs = []

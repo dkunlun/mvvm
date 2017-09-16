@@ -1,3 +1,8 @@
+/**
+ * 编译器
+ * @param       {dom} el 绑定节点
+ * @param       {object} vm 实列对象
+ */
 function Compile(el, vm) {
     this.vm = vm
     this.el = document.querySelector(el)

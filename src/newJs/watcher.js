@@ -1,3 +1,4 @@
+//订阅者观察器
 function Watcher(vm, exp, cb) {
     this.cb = cb
     this.vm = vm

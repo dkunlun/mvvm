@@ -14,6 +14,7 @@ function MVVM(options) {
 }
 
 MVVM.prototype = {
+    //代理数据
     _proxyData (key) {
         Object.defineProperty(this, key, {
             enumerable: false,

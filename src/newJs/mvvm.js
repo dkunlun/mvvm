@@ -8,9 +8,7 @@ function MVVM(options) {
 
     observe(data)
 
-    new Compile(options.el, this)
-
-    return this
+    this.$compile = new Compile(options.el || document.body, this)
 }
 
 MVVM.prototype = {

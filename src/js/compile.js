@@ -26,7 +26,7 @@ Compile.prototype = {
     compileElement (el) {
         let childNodes = el.childNodes
 
-        [].slice.call(childNodes).forEach((node) => {
+        Array.prototype.slice.call(childNodes).forEach((node) => {
             let text = node.textContent
             let reg = /\{\{(.*)\}\}/
 
@@ -44,7 +44,7 @@ Compile.prototype = {
     compile (node) {
         let nodeAttrs = node.attributes
 
-        [].slice.call(nodeAttrs).forEach((attr) => {
+        Array.prototype.slice.call(nodeAttrs).forEach((attr) => {
             let attrName = attr.name
             if(this.isDirective(attrName)) {
                 let exp = attr.value
@@ -62,6 +62,9 @@ Compile.prototype = {
     },
     compileText (node, exp) {
         compileUtil.text(node, this.$vm, exp)
+    },
+    isEventDirective: function(dir) {
+        return dir.indexOf('on') === 0;
     },
     isDirective (attr) {
         return attr.indexOf('v-') === 0

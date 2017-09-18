@@ -49,11 +49,7 @@ Compile.prototype = {
         })
     },
     compileText(node, exp) {
-        let initText = this.vm[exp]
-        this.updateText(node, initText)
-        new Watcher(this.vm, exp, value => {
-            this.updateText(node, value)
-        })
+        compileUtil.text(node, this.vm, exp)
     },
     compile (node) {
         let nodeAttrs = node.attributes
@@ -113,5 +109,59 @@ Compile.prototype = {
     },
     isEventDirective (dir) {
         return dir.indexOf('on:') === 0
+    }
+}
+
+let compileUtil = {
+    text (node, vm, exp) {
+        this.bind(node, vm, exp, 'text')
+    },
+    bind (node, vm, exp, dir) {
+        let updaterFn = updater[dir + 'Updater']
+
+        updaterFn && updaterFn(node, this._getVMVal(vm, exp))
+
+        new Watcher(vm, exp, (value, oldValue) => {
+            updaterFn && updaterFn(node, value, oldValue)
+        })
+    },
+    _getVMVal (vm, exp) {
+        let val = vm
+        exp = exp.split('.')
+        exp.forEach(k => {
+            val = val[k]
+        })
+
+        return val
+    },
+    _setVMVal (vm, exp, value) {
+        let val = vm
+        exp = exp.split('.')
+        exp.forEach((k, i) =>{
+            if(i < exp.length - 1) {
+                val = val[k]
+            } else {
+                val[k] = value
+            }
+        })
+    }
+}
+
+let updater = {
+    textUpdater (node, value) {
+        node.textContent = typeof value === 'undefined' ? '' : value
+    },
+    htmlUpdater (node, value) {
+        node.innerHTML = typeof value === 'undefined' ? '' : value
+    },
+    classUpdater (node, value, oldValue) {
+        let className = node.className
+        className = className.replace(oldValue, '').replace(/\s$/, '')
+
+        let space = className && String(value) ? ' ' : ''
+        node.className = className + space + value
+    },
+    modelUpdater (node, value, oldValue) {
+        node.value = typeof value === 'undefined' ? '' : value
     }
 }

@@ -62,7 +62,7 @@ Compile.prototype = {
                 if(this.isEventDirective(dir)) {
                     this.compileEvent(node, this.vm, exp, dir)
                 } else {
-                    this.compileModel(node, this.vm, exp, dir)
+                    compileUtil[dir] && compileUtil[dir](node, this.vm, exp)
                 }
                 node.removeAttribute(attrName)
             }
@@ -75,22 +75,6 @@ Compile.prototype = {
         if(eventType && cb) {
             node.addEventListener(eventType, cb.bind(vm), false)
         }
-    },
-    compileModel (node, vm, exp, dir) {
-        let val = this.vm[exp]
-        this.modelUpdater(node, val)
-        new Watcher(this.vm, exp, value => {
-            this.modelUpdater(node, value)
-        })
-
-        node.addEventListener('input', e => {
-            let newValue = e.target.value
-            if(val === newValue) {
-                return
-            }
-            this.vm[exp] = newValue
-            val = newValue
-        })
     },
     updateText (node, value) {
         node.textContent = typeof value == 'undefined' ? '' : value;
@@ -123,6 +107,20 @@ let compileUtil = {
 
         new Watcher(vm, exp, (value, oldValue) => {
             updaterFn && updaterFn(node, value, oldValue)
+        })
+    },
+    model (node, vm, exp) {
+        this.bind(node, vm, exp, 'model')
+        let val = this._getVMVal(vm, exp)
+
+        node.addEventListener('input', e => {
+            let newValue = e.target.value
+            if(val === newValue) {
+                return
+            }
+
+            this._setVMVal(vm, exp, newValue)
+            val = newValue
         })
     },
     _getVMVal (vm, exp) {

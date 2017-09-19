@@ -54,8 +54,9 @@ Compile.prototype = {
     compile (node) {
         let nodeAttrs = node.attributes
 
-        Array.prototype.forEach.call(nodeAttrs, (attr) => {
+        Array.prototype.slice.call(nodeAttrs).forEach((attr) => {
             let attrName = attr.name
+
             if(this.isDirective(attrName)) {
                 let exp = attr.value
                 let dir = attrName.substring(2)
@@ -122,6 +123,9 @@ let compileUtil = {
             this._setVMVal(vm, exp, newValue)
             val = newValue
         })
+    },
+    class (node, vm, exp) {
+        this.bind(node, vm, exp, 'class')
     },
     _getVMVal (vm, exp) {
         let val = vm

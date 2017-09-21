@@ -157,11 +157,9 @@ let updater = {
         node.innerHTML = typeof value === 'undefined' ? '' : value
     },
     classUpdater (node, value, oldValue) {
-        let className = node.className
-        className = className.replace(oldValue, '').replace(/\s$/, '')
-
-        let space = className && String(value) ? ' ' : ''
-        node.className = className + space + value
+        let classList = node.classList
+        oldValue && classList.remove(oldValue)
+        value && classList.add(value)
     },
     modelUpdater (node, value, oldValue) {
         node.value = typeof value === 'undefined' ? '' : value

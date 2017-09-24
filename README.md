@@ -4,7 +4,14 @@
 ## git clone
 
 ``` bash
-打开index.html就能看到效果
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run start
+
+# build for production with minification
+npm run build
 ```
 
 ## 目录结构

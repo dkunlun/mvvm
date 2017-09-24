@@ -12,29 +12,5 @@
     <input v-model="name" v-class="name" class="age"/>
     <button type="button" v-on:click="add">add</button>
 </div>
-<script src="./src/newJS/observer.js"></script>
-<script src="./src/newJS/watcher.js"></script>
-<script src="./src/newJS/compile.js"></script>
-<script src="./src/newJS/mvvm.js"></script>
-<script>
-    var vm = new MVVM({
-        el: '#mvvm-app',
-        data: {
-            name: 123,
-            age: 19,
-            friends: [
-                {
-                    name: 'bob',
-                    age: 19
-                }
-            ]
-        },
-        methods: {
-            add () {
-                this.age++
-            }
-        }
-    })
-</script>
 </body>
 </html>
